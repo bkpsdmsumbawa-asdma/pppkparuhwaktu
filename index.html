@@ -1,3 +1,158 @@
+
+Gemini
+Percakapan Sementara
+Percakapan baru
+Telusuri percakapan
+Gambar
+Baru
+Koleksi
+Notebook baru
+Digitalisasi Dokumen PPPK Paruh Waktu Melalui Sistem Paperless BKPSDM
+Instruksi Modifikasi Kode Bertahap
+Esai Profesionalisme ASN Analis SDM
+Membuat Bot Telegram untuk Catatan
+Menampilkan Google Script di Blogger
+Persiapan Project Latsar V.1 GAS
+periksa dan pelajari dokumen ini, modifikasi atau ubah sehingga juga memiliki indikator SMART ASN dan SMART GOVERNANCE berdasarkan isu prioritas yang dipilih
+Sistem Merit ASN: Kualitas, Integritas, Tantangan
+Ubah foto saya ini menjadi pas foto formal standar profesional. Kenakan saya kemeja putih bersih yang rapi dengan dasi hitam Panjang serta menggunakan peci nasional. Ganti latar belakang menjadi warna Merah yang solid dan merata. Terapkan pencahayaan studio yang lembut untuk menghilangkan semua bayangan di wajah. Atur postur saya agar tegak dan wajah lurus ke depan dengan ekspresi netral. Hasilnya harus sangat fotorealistik, beresolusi tinggi, dengan detail kulit dan rambut yang natural.
+Mutasi PPPK: Aturan dan Kondisi
+Vario 125 vs. 160: Kota?
+ASN Jabatan Kenaikan Aturan Hukum
+Percakapan dengan Gemini
+bagaimana cara agar aplikasi google script yang saya buat bisa di akses melalui github.io seperti link berikut https://badankepegawaiansumbawa.github.io/pks/
+
+Agar aplikasi Google Apps Script (GAS) Anda bisa diakses melalui GitHub Pages (seperti github.io), Anda tidak bisa langsung "meng-host" script Google di GitHub.
+
+Cara kerjanya adalah dengan menyebarkan (deploy) Google Script sebagai Web App, lalu menggunakan GitHub Pages sebagai perantara (frontend) yang memanggil atau menampilkan Web App tersebut.
+
+Berikut adalah dua cara utama yang bisa Anda gunakan:
+
+Cara 1: Menggunakan iframe (Paling Mudah & Instan)
+Cara ini menyematkan (embed) tampilan Google Apps Script langsung ke dalam halaman HTML di GitHub Pages Anda.
+
+Langkah 1: Deploy Google Apps Script sebagai Web App
+Buka project Google Apps Script Anda.
+
+Klik tombol Deploy di kanan atas > pilih New deployment.
+
+Klik ikon gerigi (Select type) > pilih Web app.
+
+Atur konfigurasinya:
+
+Execute as: Me (email anda)
+
+Who has access: Anyone (Ini wajib agar bisa diakses publik).
+
+Klik Deploy. Anda akan mendapatkan sebuah Web App URL (misal: https://script.google.com/macros/s/.../exec). Salin URL tersebut.
+
+Langkah 2: Buat File di GitHub Pages
+Buat repositori di GitHub (misal namanya pks).
+
+Buat file baru di dalam repositori tersebut dengan nama index.html.
+
+Isi file index.html dengan kode berikut, lalu ganti URL_WEB_APP_ANDA dengan link yang sudah disalin tadi:
+
+HTML
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Saya</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+    <iframe src="URL_WEB_APP_ANDA"></div>
+</body>
+</html>
+Aktifkan fitur GitHub Pages di pengaturan repositori Anda (Settings > Pages > Build and deployment > Source: Deploy from a branch, pilih main atau master).
+
+Aplikasi Anda sekarang bisa diakses melalui https://username.github.io/pks/.
+
+Cara 2: Menggunakan API / fetch (Lebih Profesional)
+Jika Anda tidak ingin menggunakan iframe (karena terkadang ada kendala izin/permission atau tampilan kurang responsif), Anda bisa menjadikan Google Apps Script sebagai Backend (untuk mengolah data) dan GitHub Pages sebagai Frontend (tampilan UI).
+
+Langkah 1: Atur Apps Script agar Mengembalikan JSON
+Di dalam Code.gs, gunakan fungsi doGet(e) yang mengembalikan TextOutput berupa JSON, bukan HtmlOutput.
+
+JavaScript
+function doGet(e) {
+  var data = {
+    status: "success",
+    pesan: "Halo dari Google Apps Script!"
+  };
+  
+  return ContentService.createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+Lakukan Deploy sebagai Web App dengan akses Anyone seperti pada Cara 1.
+
+Langkah 2: Panggil Menggunakan JavaScript di GitHub Pages
+Di file index.html pada repositori GitHub Anda, Anda bisa mengambil data dari Google Apps Script menggunakan fetch:
+
+HTML
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Aplikasi Frontend GitHub</title>
+</head>
+<body>
+    <h1>Data dari Google Script:</h1>
+    <div id="konten">Memuat data...</div>
+
+    <script>
+        const webAppUrl = 'URL_WEB_APP_ANDA';
+
+        fetch(webAppUrl)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('konten').innerText = data.pesan;
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
+⚠️ Catatan Penting: > Setiap kali Anda melakukan perubahan atau update kode di Google Apps Script, Anda harus melakukan Deploy ulang dengan memilih Manage Deployments > Edit (ikon pensil) > Pilih versi New Version > Deploy. Jika tidak, perubahan tidak akan muncul di link GitHub.
+
+Ini adalah file script google aplication saya, mohon berikan panduan untuk sinkron dengan github.io agar bisa di akses melalui github.io seperti link berikut https://badankepegawaiansumbawa.github.io/pks/
+
+Berikut adalah panduan lengkap untuk menyinkronkan Google Apps Script Anda dengan repositori GitHub Pages agar portal SiDOK-ASN Anda dapat diakses langsung melalui link [https://badankepegawaiansumbawa.github.io/pks/](https://badankepegawaiansumbawa.github.io/pks/).
+
+Karena arsitektur kode Anda menggunakan fungsi backend Google Apps Script (google.script.run) untuk berkomunikasi dengan frontend HTML, kita tidak bisa langsung memindahkan seluruh file ke GitHub. Strategi terbaik dan paling rapi adalah menggunakan Cara API / PostMessage Perantara agar GitHub Pages (Frontend) dapat memanggil Google Apps Script Anda (Backend).
+
+Langkah 1: Deploy Google Apps Script sebagai Web App
+Buka editor Google Apps Script Anda.
+
+Di pojok kanan atas, klik tombol Deploy > pilih New deployment.
+
+Klik ikon gerigi (Select type) > pilih Web app.
+
+Konfigurasikan pengaturannya seperti berikut:
+
+Description: SiDOK-ASN Prod
+
+Execute as: Me (email-anda@gmail.com)
+
+Who has access: Anyone (Ini wajib agar sistem bisa diakses publik dari luar).
+
+Klik Deploy.
+
+Anda akan dimintai izin akses (Authorize Access), silakan setujui menggunakan akun Google Anda.
+
+Salin Web App URL yang Anda dapatkan (URL tersebut berakhiran /exec).
+
+Langkah 2: Buat File di Repositori GitHub (pks)
+Masuk ke akun GitHub Anda, buka repositori bernama pks, lalu buat sebuah file bernama index.html.
+
+Agar halaman GitHub Pages Anda bisa berkomunikasi lancar dengan Apps Script tanpa terblokir masalah keamanan (iframe cross-origin), gunakan kode jembatan (bridge container) di bawah ini.
+
+Salin seluruh kode ini ke file index.html di repositori GitHub Anda:
+
+HTML
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -24,7 +179,752 @@
 <body>
 
     <!-- Jembatan Pengubung ke Google Apps Script Web App -->
-    <iframe src="https://script.google.com/macros/s/AKfycbxw7V8UG3R7RP7B7UlhyYytgHpd8RXiggHc_sUGurUcMnCwMMYyg4V_UKLJY_D0hSTAhg/exec"></iframe>
+    <iframe src="PASTE_URL_WEB_APP_GOOGLE_ANDA_DISINI"></iframe>
 
 </body>
 </html>
+⚠️ Penting: Ganti tulisan PASTE_URL_WEB_APP_GOOGLE_ANDA_DISINI dengan URL Web App Google Apps Script yang sudah Anda salin pada Langkah 1.
+
+Langkah 3: Mengaktifkan GitHub Pages
+Di dalam repositori GitHub pks Anda, buka tab Settings (Pengaturan).
+
+Pada menu bilah samping kiri, cari bagian Code and automation dan klik Pages.
+
+Di bagian Build and deployment:
+
+Source: Pilih Deploy from a branch.
+
+Branch: Pilih main atau master (tergantung branch utama Anda), lalu pilih folder / (root).
+
+Klik tombol Save.
+
+Tunggu sekitar 1–2 menit, GitHub akan memproses deployment Anda dan menampilkan link aktif di bagian atas halaman tersebut (misal: [https://badankepegawaiansumbawa.github.io/pks/](https://badankepegawaiansumbawa.github.io/pks/)).
+
+🔒 Catatan Keamanan & Pemeliharaan Penting
+Keamanan Kredensial & Token:
+Di dalam kode Google Apps Script Anda, terdapat fungsi getTelegramConfig() yang mengambil data dari PropertiesService.getScriptProperties(). Ini sudah sangat benar dan aman! Pastikan Anda memasukkan TELEGRAM_BOT_TOKEN dan TELEGRAM_CHAT_ID melalui menu Project Settings (Ikon Gerigi) > Script Properties di editor Apps Script, jangan pernah menulis tokennya langsung (hardcode) di dalam script GitHub.
+
+SetXFrameOptionsMode:
+Di dalam fungsi doGet(e) Anda, baris .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL); sudah terpasang dengan benar. Baris inilah yang memberikan izin kepada GitHub Pages untuk menampilkan portal login Google Apps Script Anda di dalam komponen iframe.
+
+Setiap Kali Melakukan Update Kode:
+Jika di kemudian hari Anda mengubah kode HTML login atau fungsi .gs di Google Apps Script, Anda harus melakukan deploy ulang agar perubahannya masuk ke GitHub Pages. Cara update-nya: Klik Deploy > Manage deployments > klik ikon Pensil (Edit) > ganti versi ke New Version > Klik Deploy. (Anda tidak perlu mengubah file di GitHub lagi selama URL-nya tetap sama).
+
+jika saya mempunyai 2 aplikasi google bagaimana caranya agar bisa memanggilnya secara terpisah?
+
+misalnya google aplication SIDOK-ASN di panggil melalui link bkpsdmsumbawa-asdma.github.io/sidokasn dan google aplication doc-asn di panggil melalui link bkpsdmsumbawa-asdma.github.io/edokumen
+
+Agar kedua aplikasi Google Apps Script Anda (misalnya SiDOK-ASN dan DOC-ASN) bisa dipanggil secara terpisah menggunakan subdomain/subfolder GitHub Pages yang berbeda, Anda hanya perlu memanfaatkan fitur Multi-Repository di GitHub.
+
+Di GitHub Pages, setiap repositori publik yang Anda buat otomatis akan menjadi subfolder dari domain utama Anda (username.github.io/nama-repositori).
+
+Berikut adalah panduan langkah demi langkah untuk memisahkannya:
+
+Langkah 1: Deploy Kedua Google Apps Script Anda
+Pastikan masing-masing project Google Apps Script sudah dideploy sebagai Web App secara terpisah dengan akses Anyone (seperti langkah sebelumnya). Anda akan memiliki dua URL backend yang berbeda:
+
+URL Web App SiDOK-ASN: [https://script.google.com/macros/s/WEB_APP_ID_SIDOK/exec](https://script.google.com/macros/s/WEB_APP_ID_SIDOK/exec)
+
+URL Web App DOC-ASN: [https://script.google.com/macros/s/WEB_APP_ID_DOC/exec](https://script.google.com/macros/s/WEB_APP_ID_DOC/exec)
+
+Langkah 2: Buat 2 Repositori Berbeda di GitHub
+Masuk ke akun GitHub bkpsdmsumbawa-asdma, lalu buat dua buah repositori baru:
+
+🏢 Repositori 1 untuk SiDOK-ASN
+Buat repositori baru dengan nama: sidokasn
+
+Di dalam repositori ini, buat file index.html dan masukkan kode jembatan iframe berikut:
+
+HTML
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiDOK-ASN - Kabupaten Sumbawa</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
+        iframe { border: none; width: 100%; height: 100%; display: block; }
+    </style>
+</head>
+<body>
+    <!-- Panggil URL Web App SiDOK-ASN Anda -->
+    <iframe src="https://script.google.com/macros/s/WEB_APP_ID_SIDOK/exec"></iframe>
+</body>
+</html>
+Aktifkan GitHub Pages di repositori ini melalui Settings > Pages > Deploy from a branch (pilih main/master).
+
+Aplikasi ini sekarang bisa diakses di: [https://bkpsdmsumbawa-asdma.github.io/sidokasn](https://bkpsdmsumbawa-asdma.github.io/sidokasn)
+
+📄 Repositori 2 untuk DOC-ASN
+Buat repositori baru lagi dengan nama: edokumen
+
+Di dalam repositori ini, buat file index.html baru dan isi dengan kode iframe yang mengarah ke aplikasi kedua:
+
+HTML
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Dokumen ASN - Kabupaten Sumbawa</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
+        iframe { border: none; width: 100%; height: 100%; display: block; }
+    </style>
+</head>
+<body>
+    <!-- Panggil URL Web App DOC-ASN Anda -->
+    <iframe src="https://script.google.com/macros/s/WEB_APP_ID_DOC/exec"></iframe>
+</body>
+</html>
+Aktifkan kembali GitHub Pages di repositori edokumen ini (Settings > Pages).
+
+Aplikasi kedua ini sekarang bisa diakses di: [https://bkpsdmsumbawa-asdma.github.io/edokumen](https://bkpsdmsumbawa-asdma.github.io/edokumen)
+
+💡 Alternatif Lain (Hanya Menggunakan 1 Repositori)
+Jika Anda tidak ingin membuat banyak repositori dan ingin semuanya dikelola di dalam satu repositori saja, Anda bisa membuat struktur folder di dalam satu repositori tersebut.
+
+Misalnya, buat satu repositori bernama layanan-asn, lalu di dalamnya Anda buat folder:
+
+Folder /sidokasn/index.html (isi dengan iframe SiDOK)
+
+Folder /edokumen/index.html (isi dengan iframe DOC-ASN)
+
+Nanti link aksesnya akan menjadi:
+
+bkpsdmsumbawa-asdma.github.io/layanan-asn/sidokasn
+
+bkpsdmsumbawa-asdma.github.io/layanan-asn/edokumen
+
+Namun, jika Anda ingin link-nya persis sama seperti yang Anda sebutkan di pertanyaan (tanpa ada nama repositori induk di tengahnya), maka Cara Pertama (membuat 2 repositori terpisah) adalah solusi terbaik dan paling rapi.
+
+di repository pada folder main terdapat file index.html. buat index.html baru yang berisi informasi link bkpsdmsumbawa-asdma.github.io/layanan-asn/pk dan bkpsdmsumbawa-asdma.github.io/layanan-asn/e-doc dengan UI yang interaktif, modern dan profesional dengan tema warna yang sesuai dengan good governance
+
+File index.html baru yang modern, interaktif, profesional, dan bertemakan Good Governance (menggunakan perpaduan warna Deep Navy, Slate Blue, dan aksen Emas Kerajaan untuk mencerminkan integritas institusi) telah berhasil dibuat.
+
+Your HTML file is ready
+Ikon HTML
+index
+ HTML 
+Buka
+
+Berikut adalah kode lengkap index.html tersebut. Anda dapat langsung menyalin kode di bawah ini ke file index.html yang berada langsung di dalam folder root (branch main) pada repositori layanan-asn:
+
+HTML
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Layanan ASN - BKPSDM Kabupaten Sumbawa</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #0F172A;       /* Deep Navy Blue - Melambangkan Integritas & Profesionalisme */
+      --secondary: #1E3A8A;     /* Governance Blue - Melambangkan Stabilitas & Pelayanan Publik */
+      --accent: #D97706;        /* Gold/Amber Accent - Melambangkan Kejayaan & Kewibawaan */
+      --accent-hover: #B45309;
+      --bg-gradient: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #F8FAFC;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+    }
+
+    /* Decorative Background Header Pattern */
+    .hero-banner {
+      background: var(--bg-gradient);
+      color: #ffffff;
+      padding: 5rem 2rem 8rem 2rem;
+      text-align: center;
+      position: relative;
+      border-bottom: 5px solid var(--accent);
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0.5;
+    }
+
+    .gov-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(217, 119, 6, 0.15);
+      border: 1px solid var(--accent);
+      color: #FBBF24;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: #94A3B8;
+      max-width: 700px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
+
+    /* Main Container & Cards Layout */
+    .main-container {
+      max-width: 1100px;
+      width: 100%;
+      margin: -5rem auto auto auto;
+      padding: 0 1.5rem 4rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .grid-portal {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .portal-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      border: 1px solid #E2E8F0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+      background: var(--secondary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .portal-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .portal-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+      border-color: #CBD5E1;
+    }
+
+    .card-header-icon {
+      width: 60px;
+      height: 60px;
+      background: #EFF6FF;
+      color: var(--secondary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .portal-card:hover .card-header-icon {
+      background: var(--secondary);
+      color: #ffffff;
+    }
+
+    .portal-card.alt-theme::before {
+      background: var(--accent);
+    }
+    .portal-card.alt-theme:hover .card-header-icon {
+      background: var(--accent);
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      flex-grow: 1;
+    }
+
+    .card-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: #F1F5F9;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 0.85rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      border: 1px solid #E2E8F0;
+    }
+
+    .portal-card:hover .card-action-btn {
+      background: var(--secondary);
+      color: #ffffff;
+      border-color: var(--secondary);
+    }
+
+    .portal-card.alt-theme:hover .card-action-btn {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    .card-action-btn i {
+      transition: transform 0.2s ease;
+    }
+
+    .card-action-btn:hover i {
+      transform: translateX(4px);
+    }
+
+    /* Footer */
+    footer {
+      background: #0F172A;
+      color: #94A3B8;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: 0.9rem;
+      border-top: 1px solid #1E293B;
+    }
+
+    footer p strong {
+      color: #E2E8F0;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) {
+      .hero-title { font-size: 1.85rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .main-container { margin-top: -3rem; }
+      .hero-banner { padding: 4rem 1rem 6rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero-banner">
+    <div class="gov-badge">
+      <i class="fa-solid fa-shield-halved"></i> Sistem Tata Kelola Integratif
+    </div>
+    <h1 class="hero-title">PORTAL LAYANAN ASN</h1>
+    <p class="hero-subtitle">Badan Kepegawaian dan Pengembangan Sumber Daya Manusia (BKPSDM) Kabupaten Sumbawa</p>
+  </header>
+
+  <main class="main-container">
+    <section class="grid-portal">
+      
+      <article class="portal-card">
+        <div>
+          <div class="card-header-icon">
+            <i class="fa-solid fa-file-signature"></i>
+          </div>
+          <h2 class="card-title">SiDOK-ASN (Pelayanan Kontrak)</h2>
+          <p class="card-desc">Sistem Dokumentasi Online Kepegawaian untuk pengelolaan administrasi, pengisian kelengkapan berkas, dan verifikasi dokumen Perjanjian Kerja (PK) Aparatur Sipil Negara secara digital.</p>
+        </div>
+        <a href="./pk/" class="card-action-btn">
+          Akses Aplikasi <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <article class="portal-card alt-theme">
+        <div>
+          <div class="card-header-icon">
+            <i class="fa-solid fa-folder-open"></i>
+          </div>
+          <h2 class="card-title">e-Dokumen ASN</h2>
+          <p class="card-desc">Pusat penyimpanan berkas digital kepegawaian terintegrasi. Memudahkan pencarian, pengunduhan, serta monitoring validasi arsip elektronik pegawai di lingkungan Pemerintah Kabupaten Sumbawa.</p>
+        </div>
+        <a href="./e-doc/" class="card-action-btn">
+          Akses Aplikasi <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 <strong>BKPSDM Kabupaten Sumbawa</strong>. Pemerintah Provinsi Nusa Tenggara Barat. <br>Menuju Birokrasi Modern, Akuntabel, dan Berintegritas Tinggi.</p>
+  </footer>
+
+</body>
+</html>
+📂 Struktur Penempatan File di GitHub Agar Berjalan Sesuai Ekspektasi:
+Guna memastikan sistem pemanggilan halaman ini bekerja dengan tepat tanpa broken link, pastikan struktur folder di dalam repositori layanan-asn Anda terlihat seperti ini:
+
+Plaintext
+layanan-asn (Repository Utama)
+ ├── index.html            <-- (Paste KODE DI ATAS di sini sebagai landing portal)
+ ├── pk/
+ │    └── index.html       <-- (Isi dengan iframe App Google Apps Script SiDOK-ASN)
+ └── e-doc/
+      └── index.html       <-- (Isi dengan iframe App Google Apps Script e-Dokumen)
+💡 Tips Tambahan: Penggunaan link bertipe ./pk/ dan ./e-doc/ (menggunakan tanda titik di awal) disebut sebagai Relative Path. Cara ini sangat disarankan dalam standardisasi web di GitHub Pages agar tautan link tetap dinamis dan tidak rusak sewaktu-waktu jika repositori Anda diubah statusnya menjadi private ataupun diganti domain utamanya.
+
+
+
+
+Gemini adalah AI dan dapat melakukan kesalahan.
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Layanan ASN - BKPSDM Kabupaten Sumbawa</title>
+  
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #0F172A;       /* Deep Navy Blue - Melambangkan Integritas & Profesionalisme */
+      --secondary: #1E3A8A;     /* Governance Blue - Melambangkan Stabilitas & Pelayanan Publik */
+      --accent: #D97706;        /* Gold/Amber Accent - Melambangkan Kejayaan & Kewibawaan */
+      --accent-hover: #B45309;
+      --bg-gradient: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #F8FAFC;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+    }
+
+    /* Decorative Background Header Pattern */
+    .hero-banner {
+      background: var(--bg-gradient);
+      color: #ffffff;
+      padding: 5rem 2rem 8rem 2rem;
+      text-align: center;
+      position: relative;
+      border-bottom: 5px solid var(--accent);
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0.5;
+    }
+
+    .gov-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(217, 119, 6, 0.15);
+      border: 1px solid var(--accent);
+      color: #FBBF24;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: #94A3B8;
+      max-width: 700px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
+
+    /* Main Container & Cards Layout */
+    .main-container {
+      max-width: 1100px;
+      width: 100%;
+      margin: -5rem auto auto auto;
+      padding: 0 1.5rem 4rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .grid-portal {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .portal-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      border: 1px solid #E2E8F0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+      background: var(--secondary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .portal-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .portal-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+      border-color: #CBD5E1;
+    }
+
+    .card-header-icon {
+      width: 60px;
+      height: 60px;
+      background: #EFF6FF;
+      color: var(--secondary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .portal-card:hover .card-header-icon {
+      background: var(--secondary);
+      color: #ffffff;
+    }
+
+    /* Accent color override for e-doc or specific themes if wanted */
+    .portal-card.alt-theme::before {
+      background: var(--accent);
+    }
+    .portal-card.alt-theme:hover .card-header-icon {
+      background: var(--accent);
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      flex-grow: 1;
+    }
+
+    .card-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: #F1F5F9;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 0.85rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      border: 1px solid #E2E8F0;
+    }
+
+    .portal-card:hover .card-action-btn {
+      background: var(--secondary);
+      color: #ffffff;
+      border-color: var(--secondary);
+    }
+
+    .portal-card.alt-theme:hover .card-action-btn {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    .card-action-btn i {
+      transition: transform 0.2s ease;
+    }
+
+    .card-action-btn:hover i {
+      transform: translateX(4px);
+    }
+
+    /* Footer */
+    footer {
+      background: #0F172A;
+      color: #94A3B8;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: 0.9rem;
+      border-top: 1px solid #1E293B;
+    }
+
+    footer p strong {
+      color: #E2E8F0;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Breakdown */
+    @media (max-width: 640px) {
+      .hero-title { font-size: 1.85rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .main-container { margin-top: -3rem; }
+      .hero-banner { padding: 4rem 1rem 6rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Hero Header Section -->
+  <header class="hero-banner">
+    <div class="gov-badge">
+      <i class="fa-solid fa-shield-halved"></i> Sistem Tata Kelola Integratif
+    </div>
+    <h1 class="hero-title">PORTAL LAYANAN ASN</h1>
+    <p class="hero-subtitle">Badan Kepegawaian dan Pengembangan Sumber Daya Manusia (BKPSDM) Kabupaten Sumbawa</p>
+  </header>
+
+  <!-- Main Portal Section -->
+  <main class="main-container">
+    <section class="grid-portal">
+      
+      <!-- Card 1: SiDOK-ASN (PK) -->
+      <article class="portal-card">
+        <div>
+          <div class="card-header-icon">
+            <i class="fa-solid fa-file-signature"></i>
+          </div>
+          <h2 class="card-title">PORTAL DOKUMEN BKPSDM SUMBAWA</h2>
+          <p class="card-desc">Sistem Dokumentasi Online Kepegawaian untuk pengelolaan administrasi, pengisian kelengkapan berkas, dan verifikasi dokumen Perjanjian Kerja (PK) Aparatur Sipil Negara secara digital.</p>
+        </div>
+        <!-- Link relatif mengarah ke subfolder /pk/ -->
+        <a href="./pk/" class="card-action-btn">
+          Akses Aplikasi <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <!-- Card 2: E-Dokumen ASN -->
+      <article class="portal-card alt-theme">
+        <div>
+          <div class="card-header-icon">
+            <i class="fa-solid fa-folder-open"></i>
+          </div>
+          <h2 class="card-title">e-Dokumen ASN</h2>
+          <p class="card-desc">Pusat penyimpanan berkas digital kepegawaian terintegrasi. Memudahkan pencarian, pengunduhan, serta monitoring validasi arsip elektronik pegawai di lingkungan Pemerintah Kabupaten Sumbawa.</p>
+        </div>
+        <!-- Link relatif mengarah ke subfolder /e-doc/ -->
+        <a href="./e-doc/" class="card-action-btn">
+          Akses Aplikasi <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- Professional Footer -->
+  <footer>
+    <p>&copy; 2026 <strong>BKPSDM Kabupaten Sumbawa</strong>. Pemerintah Provinsi Nusa Tenggara Barat. <br>Menuju Birokrasi Modern, Akuntabel, dan Berintegritas Tinggi.</p>
+  </footer>
+
+</body>
+</html>
+index.html
+Menampilkan index.html.
